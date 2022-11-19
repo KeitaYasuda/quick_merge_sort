@@ -1,167 +1,18 @@
-/* ver3.2
-    ・y_3_sortをデフォルトに採用
-    ・高速化の課題
-    ・3メディアンを採用してみる
-*/
+#include "quick_merge_sort.h"
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <time.h>
-
-//可変長要素の構造体
-typedef struct element{
-	int* element_p;		// 実体へのポインタ
-	int size;			// 要素の大きさ(含んでいるデータ数)
-}ELEMENT;
-
-int layer = 0;
-void y_sort(int[], int);
-void sort(int[], int[], int, ELEMENT[], int);
-
-ELEMENT *small_num_is(ELEMENT*, ELEMENT*);
-
-int main(void){
-    int data_size = 10000000;
-    int roop_num = 100;
-    
-    
-    int i,i2;
-    int tane;
-    int j=0,z=0;
-    clock_t	start,end;
-    
-    clock_t time_ave1 = 0;
-    clock_t time_ave2 = 0;
-    //clock_t time_ave3 = 0;
-    
-    tane = 10;
-    
-    for(i=0; i < roop_num; i++){
-        int* data1 = malloc(sizeof(int)*data_size);
-        srand(tane);
-        //int* data2 = malloc(sizeof(int)*data_size);
-        // **** ランダムデータ生成 ****
-        for(i2=0; i2 < data_size; i2++){
-            data1[i2] = rand();
-            //data2[i2] = data1[i2];
-        }
-    	// **** data1内容表示 ****
-    	//for(i=0; i< data_size; i++)printf("%3d:%10d\n", i, data1[i]);
-    
-        //printf("乱数の種：%d\tデータ件数：%d\n",tane, data_size);
-        //y_sort(data1, data_size);
-        
-        start = clock();
-        y_sort(data1, data_size);
-        end   = clock();
-        //printf("ランダム整列\t：pivot_y_sort time =%ld (msec)\n",(end-start)*1000/CLOCKS_PER_SEC); 
-        time_ave1 += (end-start)*1000/CLOCKS_PER_SEC;
-        
-        
-        start = clock();
-        y_sort(data1, data_size);
-        end   = clock();
-        //printf("ランダム整列\t：pivot_y_sort time =%ld (msec)\n",(end-start)*1000/CLOCKS_PER_SEC); 
-        time_ave2 += (end-start)*1000/CLOCKS_PER_SEC;
-        
-        
-        //for(i2=0; i2 < data_size; i2++)printf("%3d:%10d\n", i2, data1[i2]);
-        j=0;
-        for(i2=0 ; i2 < data_size; i2++){
-            if(j <= data1[i2]) j = data1[i2];
-            else{
-            	printf("整列してない！\n");
-                break;
-            }
-        }
-        
-    	// **** data1内容表示 ****
-    	//for(i=0; i< data_size; i++)printf("%3d:%10d\n", i, data1[i]);
-    
-        // start = clock();
-        // y_sort(data1, data_size);
-        // end   = clock();
-        // printf("昇順整列\t：K_sort time =%ld (msec)\n",(end-start)*1000/CLOCKS_PER_SEC);    
-        
-        //printf("--------------------------------------\n");
-        
-        tane++;
-        free(data1);
-        //free(data2);
-	}
-    printf("\n");
-    printf("ランダム整列\t：y_sort_ver3.2 time =%ld (msec)\n",time_ave1/roop_num);
-    printf("昇順整列\t：y_sort_ver3.2 time =%ld (msec)\n",time_ave2/roop_num);
-    
-    /*
-    int* data1 = malloc(sizeof(int)*data_size);
-    srand(tane);
-    // **** ランダムデータ生成 ****
-    for(i2=0; i2 < data_size; i2++) data1[i2] = rand();
-
-    // **** data1内容表示 ****
-    //for(i=0; i< data_size; i++)printf("%3d:%10d\n", i, data1[i]);
-
-    printf("乱数の種：%d\tデータ件数：%d\n",tane, data_size);
-    start = clock();
-    k_sort(data1, data_size);
-    end   = clock();
-    printf("ランダム整列\t：K_sort time =%ld (msec)\n",(end-start)*1000/CLOCKS_PER_SEC); 
-    // **** data1内容表示 ****
-    //for(i=0; i< data_size; i++)printf("%3d:%10d\n", i, data1[i]);
-    // **** 整列チェック ****
-    // printf("整列チェックします\n");
-    
-    // for(i=0 ; i< data_size; i++){
-    //     if(j <= data1[i]) j = data1[i];
-    //     else{
-    //     	printf("整列してない！\n");
-    //         break;
-    //     }
-    // }
-    // for(i = 0; i < data_size; i++){
-    //     if(data1[i] == j){
-    //         z++;
-    //         if(z == 2) printf("重複してる！:%d\n",j);
-    //     }
-    // }
-    // printf("チェック終わり(`･ω･´)b\n");
-    free(data1);
-    */
-    
-    // **** 連続データ生成 ****
-    //for(i=0; i < data_size; i++) data1[i] = i;
-    
-    // **** data1内容表示 ****
-    //for(i=0; i< data_size; i++)printf("%3d:%10d\n", i, data1[i]);
-    
-    // **** 整列チェック ****
-    /*// printf("整列チェックします\n");
-    // for(i=0 ; i< data_size; i++){
-    //     if(j <= data1[i]) j = data1[i];
-    //     else{
-    //     	printf("整列してない！\n");
-    //         break;
-    //     }
-    // }
-    // for(i = 0; i < data_size; i++){
-    //     if(data1[i] == j){
-    //         z++;
-    //         if(z == 2) printf("重複してる！:%d\n",j);
-    //     }
-    // }
-    // printf("チェック終わり(`･ω･´)b\n");
-    */
-    return 0;
+/*与えられた2つの数字を比較し、小さい方を返す。*/
+ELEMENT *small_num_is(ELEMENT* a, ELEMENT* b){
+    if(*(a->element_p) < *(b->element_p)) return a;
+    return b;
 }
 
-/*ソート本体*/
-void sort(int sort_array[], int desk_array[], int layer_size, ELEMENT old_element[],int element_size){
-    //ver3.0
-    /* 層の備考
+
+/*オリジナルクイックマージソート*/
+void sort(int sort_array[], int desk_array[], int layer_size, ELEMENT old_element[], int element_size, int layer){
+    /* 層について
     	偶数層での書き込みは、元配列への書き込み。
         ≒ 奇数層での読み込みは、元配列の読み込み。
-    */
+     */
     layer++;
     //printf("layer[%d]/ele_size[%d]\n", layer, element_size);
     
@@ -422,133 +273,14 @@ void sort(int sort_array[], int desk_array[], int layer_size, ELEMENT old_elemen
     //printf("%d層：枢軸以下：%d\t枢軸以上：%d\n", layer, s_size, b_size);
     
     // 軸以下を整列
-    sort(write_array, read_array, write_eyeS - write_array, new_s_element, s_size);    
+    sort(write_array, read_array, write_eyeS - write_array, new_s_element, s_size, layer);    
     layer--;
     free(new_s_element);
     
     // 軸以上を整列
-    //sort(ele_s_end+1, &read_array[ele_s_end+1 - write_array], &write_array[layer_size] - ele_s_end+1, new_b_element, b_size);
-    sort(write_eyeB, &read_array[write_eyeB - write_array], &write_array[layer_size] - write_eyeB, new_b_element, b_size);
+    sort(write_eyeB, &read_array[write_eyeB - write_array], &write_array[layer_size] - write_eyeB, new_b_element, b_size, layer);
     layer--;
     free(new_b_element);
-    
-    return;
-}
-
-/*与えられた2つの数字を比較し、小さい方を返す。*/
-ELEMENT *small_num_is(ELEMENT* a, ELEMENT* b){
-    if(*(a->element_p) < *(b->element_p)) return a;
-    return b;
-}
-
-/* 最初のマージと併合情報の生成*/
-void y_sort(int array[], int array_size){	
-// *** y_3_sort ***
-    layer = 1;
-
-	//生成する配列
-	int* desk_array = malloc(sizeof(int)*array_size);
-
-	//要素を管理する変数を格納する配列
-	ELEMENT* new_element = malloc(sizeof(ELEMENT) * array_size+1);			//軸以下の要素を格納する配列
-	ELEMENT* element_eye = new_element;
-    
-    //ブロック数
-    int ele_size = 0;
-
-	//マージ処理
-	int i;
-	int tmp_a, tmp_b, tmp_c;
-    
-	// 一番最初のマージループ
-	for(i=0; i+2 < array_size; i+=3){
-        element_eye->element_p = &desk_array[i];
-        element_eye->size = 3;
-        //b < c
-        if(array[i+1] < array[i+2]){
-            // a < b < c
-            if(array[i] < array[i+1]){
-                tmp_a = array[i];
-                tmp_b = array[i+1];
-                tmp_c = array[i+2];
-            }// b < a < c 
-            else if(array[i] < array[i+2]){
-            	tmp_a = array[i+1];
-                tmp_b = array[i];
-                tmp_c = array[i+2];
-            }// b < c < a
-            else{
-            	tmp_a = array[i+1];
-                tmp_b = array[i+2];
-                tmp_c = array[i];
-            }
-        }//c < b
-        else{
-            //a < c < b
-            if(array[i] < array[i+2]){
-            	tmp_a = array[i];
-            	tmp_b = array[i+2];
-                tmp_c = array[i+1];
-        	}//c < a < b
-            else if(array[i] < array[i+1]){
-            	tmp_a = array[i+2];
-            	tmp_b = array[i];
-                tmp_c = array[i+1];
-            }//c < b < a
-            else{
-            	tmp_a = array[i+2];
-            	tmp_b = array[i+1];
-                tmp_c = array[i];
-            }
-        }
-        desk_array[i] = tmp_a;
-        desk_array[i+1] = tmp_b;
-        desk_array[i+2] = tmp_c;
-        
-        //要素eye更新
-        element_eye++;
-    }
-    ele_size = array_size/3;
-    
-    // 配列要素が余ってないか確認
-    switch(array_size - i){
-        case 2:
-            element_eye->element_p = &desk_array[i];
-        	element_eye->size = 2;
-            if(array[i] < array[i+1]){
-            	tmp_a = array[i];
-                tmp_b = array[i+1];
-            }else{
-            	tmp_a = array[i+1];
-                tmp_b = array[i];
-            }
-            desk_array[i] = tmp_a;
-            desk_array[i+1] = tmp_b;
-            element_eye++;
-        	ele_size++;
-            break;
-        case 1:
-            element_eye->element_p = &desk_array[i];
-            element_eye->size = 1;
-
-            desk_array[i] = array[i];
-
-            element_eye++;
-            ele_size++;
-            break;
-        default:
-            break;
-    }
-
-    // 要素配列の最後にNULLを入れる
-    element_eye->element_p = NULL;
-    
-    //for(i=0; i < array_size; i++) printf("%3d:%10d\n", i, desk_array[i]);
-    
-    //併合分割ソート
-    sort(desk_array, array, array_size, new_element, ele_size);
-    free(desk_array);
-    free(new_element);
     
     return;
 }

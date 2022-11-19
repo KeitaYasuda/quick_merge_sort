@@ -1,11 +1,13 @@
-void y_3_sort(int array[], int array_size){	
-    layer = 1;
+#include "quick_merge_sort.h"
+
+void pre_sort(int array[], int array_size){	
+    int layer = 1;
 
 	//生成する配列
 	int* desk_array = malloc(sizeof(int)*array_size);
 
 	//要素を管理する変数を格納する配列
-	ELEMENT* new_element = malloc(sizeof(ELEMENT) * array_size+1);			//軸以下の要素を格納する配列
+	ELEMENT* new_element = malloc(sizeof(ELEMENT) * array_size+1); //軸以下の要素を格納する配列
 	ELEMENT* element_eye = new_element;
     
     //ブロック数
@@ -99,7 +101,7 @@ void y_3_sort(int array[], int array_size){
     element_eye->element_p = NULL;
     
     //併合分割ソート
-    //sort(desk_array, array, array_size, new_element, ele_size);
+    sort(desk_array, array, array_size, new_element, ele_size, layer);
     free(desk_array);
     free(new_element);
     
