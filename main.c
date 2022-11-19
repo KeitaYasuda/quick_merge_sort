@@ -1,7 +1,7 @@
 #include "sort_program/quick_merge_sort.h"
 
 int main(void){
-    int data_size = 10000;
+    int data_size = 100000000;
     int roop_num  = 1;
     int layer = 0;
 
@@ -14,7 +14,7 @@ int main(void){
     clock_t time_ave2 = 0;
     //clock_t time_ave3 = 0;
     
-    tane = 10;
+    tane = 15;
     
     for(i=0; i < roop_num; i++){
         int* data1 = malloc(sizeof(int)*data_size);
@@ -38,14 +38,14 @@ int main(void){
         time_ave1 += (end-start)*1000/CLOCKS_PER_SEC;
         
         
-        start = clock();
-        pre_sort(data1, data_size);
-        end   = clock();
+ //       start = clock();
+ //       pre_sort(data1, data_size);
+ //       end   = clock();
         //printf("ランダム整列\t：pivot_y_sort time =%ld (msec)\n",(end-start)*1000/CLOCKS_PER_SEC); 
         time_ave2 += (end-start)*1000/CLOCKS_PER_SEC;
         
         
-        for(i2=0; i2 < data_size; i2++)printf("%3d:%10d\n", i2, data1[i2]);
+//		for(i2=0; i2 < data_size; i2++)printf("%5d:%10d\n", i2, data1[i2]);
         j=0;
         for(i2=0 ; i2 < data_size; i2++){
             if(j <= data1[i2]) j = data1[i2];
@@ -71,7 +71,7 @@ int main(void){
 	}
     printf("\n");
     printf("ランダム整列\t: pre_sort time =%ld (msec)\n",time_ave1/roop_num);
-    printf("昇順整列\t: pre_sortr time =%ld (msec)\n",time_ave2/roop_num);
+ //   printf("昇順整列\t: pre_sortr time =%ld (msec)\n",time_ave2/roop_num);
     
     /*
     int* data1 = malloc(sizeof(int)*data_size);
