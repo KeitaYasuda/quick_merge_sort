@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <time.h>
 
+#define PRE_SORT_ELEMENT_INIT_SIZE 10
+
 //可変長要素の構造体
 typedef struct element{
 	int* element_p;		// 実体へのポインタ
