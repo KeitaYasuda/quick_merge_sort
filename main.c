@@ -1,4 +1,4 @@
-#include "quick_merge_sort/quick_merge_sort.h"
+#include "sort_program/quick_merge_sort.h"
 
 int main(void){
     int data_size = 10000;

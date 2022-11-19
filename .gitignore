@@ -1,2 +1,5 @@
 /.vscode
-/a.out
+/quick_merge_sort
+/main.o
+/sort_program/pre_sort.o
+/sort_program/quick_merge_sort.o
