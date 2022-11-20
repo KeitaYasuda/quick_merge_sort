@@ -38,9 +38,9 @@ int main(void){
         time_ave1 += (end-start)*1000/CLOCKS_PER_SEC;
         
         
- //       start = clock();
- //       pre_sort(data1, data_size);
- //       end   = clock();
+        start = clock();
+        pre_sort(data1, data_size);
+        end   = clock();
         //printf("ランダム整列\t：pivot_y_sort time =%ld (msec)\n",(end-start)*1000/CLOCKS_PER_SEC); 
         time_ave2 += (end-start)*1000/CLOCKS_PER_SEC;
         
@@ -71,7 +71,7 @@ int main(void){
 	}
     printf("\n");
     printf("ランダム整列\t: pre_sort time =%ld (msec)\n",time_ave1/roop_num);
- //   printf("昇順整列\t: pre_sortr time =%ld (msec)\n",time_ave2/roop_num);
+    printf("昇順整列\t: pre_sortr time =%ld (msec)\n",time_ave2/roop_num);
     
     /*
     int* data1 = malloc(sizeof(int)*data_size);

@@ -8,7 +8,7 @@ ELEMENT *small_num_is(ELEMENT* a, ELEMENT* b){
 
 
 /*オリジナルクイックマージソート*/
-void sort(int sort_array[], int desk_array[], int layer_size, ELEMENT old_element[], int element_size, int layer){
+int sort(int sort_array[], int desk_array[], int layer_size, ELEMENT old_element[], int element_size, int layer){
     /* 層について
     	偶数層での書き込みは、元配列への書き込み。
         ≒ 奇数層での読み込みは、元配列の読み込み。
@@ -23,7 +23,8 @@ void sort(int sort_array[], int desk_array[], int layer_size, ELEMENT old_elemen
     	//0 return; 1 確定return; 2 marg return
         switch(element_size){
             case 0:
-                return;
+                break;
+
             case 1: // 何もせず書き込み
                 if(layer%2 == 0){
                     for(i=0; i < layer_size; i++){
@@ -31,7 +32,8 @@ void sort(int sort_array[], int desk_array[], int layer_size, ELEMENT old_elemen
                         //printf("case1:%d\n", desk_array[i]);
                     }
                 }
-                return;
+                break;
+
             case 2:
                 for(i=0; old_element[0].size > 0 && old_element[1].size > 0; i++){
                     p = small_num_is(&old_element[0], &old_element[1]);
@@ -52,8 +54,10 @@ void sort(int sort_array[], int desk_array[], int layer_size, ELEMENT old_elemen
                         //printf("case2:%d\n", desk_array[i]);
                     }
                 }
-                return;
+                break;
         }
+        
+        return --layer;
     }
     
     // 枢軸を格納
@@ -273,14 +277,12 @@ void sort(int sort_array[], int desk_array[], int layer_size, ELEMENT old_elemen
     //printf("%d層：枢軸以下：%d\t枢軸以上：%d\n", layer, s_size, b_size);
     
     // 軸以下を整列
-    sort(write_array, read_array, write_eyeS - write_array, new_s_element, s_size, layer);    
-    layer--;
+    layer = sort(write_array, read_array, write_eyeS - write_array, new_s_element, s_size, layer);    
     free(new_s_element);
     
     // 軸以上を整列
-    sort(write_eyeB, &read_array[write_eyeB - write_array], &write_array[layer_size] - write_eyeB, new_b_element, b_size, layer);
-    layer--;
+    layer = sort(write_eyeB, &read_array[write_eyeB - write_array], &write_array[layer_size] - write_eyeB, new_b_element, b_size, layer);
     free(new_b_element);
     
-    return;
+    return --layer;
 }
