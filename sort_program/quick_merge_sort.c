@@ -286,3 +286,15 @@ int sort(int sort_array[], int desk_array[], int layer_size, ELEMENT old_element
     
     return --layer;
 }
+
+void sorted_check(_array * array){
+    int j = 0;
+    for(int i=0 ; i< array->size; i++){
+        if(j <= array->address[i]) j = array->address[i];
+        else{
+        	printf("整列してない！\n");
+            break;
+        }
+    }
+    printf("- sort done -\n");
+}

@@ -3,3 +3,7 @@
 /main.o
 /sort_program/pre_sort.o
 /sort_program/quick_merge_sort.o
+/data.csv
+/Common/hash_search/only_one_keys.c
+/Common/hash_search/chain.o
+/Common/data_factory/data_factory.o
