@@ -23,8 +23,14 @@ MOBJ    = $(MSRC:.c=.o)
 # ソートプログラムが格納されているディレクトリ
 SORTDIR  = ./sort_program
 
+# サブディレクトリ
+SUBDIR = ./Common
+
+# データ関係
+DATADIR = $(SUBDIR)/data_factory
+
 # ビルド時に必要なオブジェクトファイル一覧
-SRCS    = main.c $(SORTDIR)/pre_sort.c $(SORTDIR)/quick_merge_sort.c
+SRCS    = main.c $(SORTDIR)/pre_sort.c $(SORTDIR)/quick_merge_sort.c $(DATADIR)/data_factory.c $(SUBDIR)/hash_search/chain.c
 OBJS    = $(SRCS:.c=.o)
 
 

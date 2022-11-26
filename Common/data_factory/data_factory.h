@@ -1,37 +1,28 @@
-#ifndef QUICK_MERGE_SORT_H
-#define QUICK_MERGE_SORT_H
+#ifndef DATA_FACTORY_H
+#define DATA_FACTORY_H
 //------------------------------------------------
-	
-	#include "../Common/my_std.h"
-	#include <time.h>
+
+	#include "../my_std.h"
+	#include "../hash_search/chain.h"
 
 //------------------------------------------------
 //  マクロ定義(Macro definition)
 //------------------------------------------------
 
-	#define TARGET_DATA_SIZE           100000000
-	#define PRE_SORT_ELEMENT_INIT_SIZE 10
+	#define DATA_FILE_NAME "data.csv"
+	#define SEED      10
 
 //------------------------------------------------
 //  型定義(Type definition)
 //------------------------------------------------
 
-	// エレメントブロックの構造体
-	typedef struct {
-		int* element_p;		// 実体へのポインタ
-		int size;			// 要素の大きさ(含んでいるデータ数)
-	}ELEMENT;
-
 //------------------------------------------------
 //  プロトタイプ宣言(Prototype declaration)
 //------------------------------------------------
 
-	void pre_sort(int[], int);
-	int sort(int[], int[], int, ELEMENT[], int, int);
-
-	void sorted_check(_array * array);
-
-	ELEMENT *small_num_is(ELEMENT*, ELEMENT*);
+	int create_random_data_to_CSV(char *file_name, unsigned int num, bool unique_onry);
+	int importCSV(char *file_name, _array *array);
+	void end_use_array(_array *array);
 
 //------------------------------------------------
 #endif
